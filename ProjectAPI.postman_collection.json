@@ -1,0 +1,1439 @@
+{
+	"info": {
+		"_postman_id": "2013d477-50d9-4a32-961d-1857c7ce4911",
+		"name": "ProjectAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Activities",
+			"item": [
+				{
+					"name": "signup_Activities",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"email\": \"niyrasamy@gmail.com\",\r\n      \"password\": \"0000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}//signup",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signIN_Activities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonFile = pm.response.json();\r",
+									"var Token = jsonFile.accessToken ;\r",
+									"\r",
+									"pm.environment.set(\"NiyraToken\", Token);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"email\": \"niyrasamy@gmail.com\",\r\n      \"password\": \"0000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Activities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response codeis 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(210);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Activities",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonFile = pm.response.json();\r",
+									"var ActivityID = jsonFile.id ;\r",
+									"\r",
+									"pm.environment.set(\"ActivityID\", ActivityID);\r",
+									"\r",
+									"pm.test(\"Status code is 201 Add Activity Successfully (:\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"correct Activity title\", function () {\r",
+									"    pm.expect(jsonFile.title).to.match(/^Ac/);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"id\": 31,\r\n      \"title\": \"Activity 31\",\r\n      \"dueDate\": \"2022-02-16T04:48:55.277793+00:00\",\r\n      \"completed\": true\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Activities",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Activity By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response code is 200 (:\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Activities/{{ActivityID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Activities",
+								"{{ActivityID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 Edit Activity Successfuly (:\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"title\": \"Activity 31\",\r\n      \"dueDate\": \"2022-02-16T04:48:55.277793+00:00\",\r\n      \"completed\": false\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Activities/{{ActivityID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Activities",
+								"{{ActivityID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 Delete Activity successfily (:\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Activities/{{ActivityID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Activities",
+								"{{ActivityID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Deleted Activity By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Activity Not Found\", function () {\r",
+									"     pm.response.to.be.notFound;\r",
+									"     pm.response.to.be.withBody;\r",
+									"     pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Activities/{{ActivityID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Activities",
+								"{{ActivityID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Activities After Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response codeis 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Activities",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Activities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authors",
+			"item": [
+				{
+					"name": "signIN_Authors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonFile = pm.response.json();\r",
+									"var Token = jsonFile.accessToken ;\r",
+									"\r",
+									"pm.environment.set(\"NiyraToken\", Token);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"email\": \"niyrasamy@gmail.com\",\r\n      \"password\": \"0000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Authors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response codeis 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Authors",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Author",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonFile = pm.response.json();\r",
+									"var AuthorID = jsonFile.id ;\r",
+									"\r",
+									"pm.environment.set(\"AuthorID\", AuthorID);\r",
+									"\r",
+									"pm.test(\"Status code is 201 Add Author Successfully (:\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"correct Author name\", function () {\r",
+									"    pm.expect(jsonFile.firstName).to.match(/^Fi/);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"id\": 31,\r\n      \"idBook\": 10,\r\n      \"firstName\": \"First Name 31\",\r\n      \"lastName\": \"Last Name 31\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Authors",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Author By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response code is 200 (:\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Authors/{{AuthorID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Authors",
+								"{{AuthorID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Author",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 Edit Author Successfuly (:\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"id\": 31,\r\n      \"idBook\": 11,\r\n      \"firstName\": \"First Name 31\",\r\n      \"lastName\": \"Last Name 31\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Authors/{{AuthorID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Authors",
+								"{{AuthorID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Author",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 Delete Author successfily (:\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Authors/{{AuthorID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Authors",
+								"{{AuthorID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Deleted Author By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Author Not Found\", function () {\r",
+									"     pm.response.to.be.notFound;\r",
+									"     pm.response.to.be.withBody;\r",
+									"     pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Authors/{{AuthorID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Authors",
+								"{{AuthorID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Authors After Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response codeis 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{NiyraToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Activities",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Activities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CoverPhotos",
+			"item": [
+				{
+					"name": "SignUpCoverPhotos",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "SignInCoverPhotos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonFile = pm.response.json();\r",
+									"var Token = jsonFile.accessToken ;\r",
+									"\r",
+									"pm.environment.set(\"CoverPhotosToken\", Token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"toqa@mail.com\",\r\n  \"password\": \"bestPassw0rd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/signin",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All CoverPhotos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CoverPhotosToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/CoverPhotos",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"CoverPhotos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add CoverPhotos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CoverPhotosToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"idBook\": 0,\r\n  \"url\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/CoverPhotos",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"CoverPhotos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get CoverPhotos By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CoverPhotosToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/CoverPhotos/{{CoverPhotosID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"CoverPhotos",
+								"{{CoverPhotosID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit CoverPhotos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CoverPhotosToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"idBook\": 32,\r\n  \"url\": \"string32\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/CoverPhotos/{{CoverPhotosID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"CoverPhotos",
+								"{{CoverPhotosID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete CoverPhotos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CoverPhotosToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/CoverPhotos/{{CoverPhotosID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"CoverPhotos",
+								"{{CoverPhotosID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get CoverPhotos After Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CoverPhotosToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/CoverPhotos",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"CoverPhotos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "User Signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var UserID = jsonData.user.id\r",
+									"\r",
+									"pm.environment.set(\"userID\", UserID);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"toqaelbazidy@gmail.com\",\r\n    \"password\": \"test123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/signup",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Sigin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json()\r",
+									"var AccessToken = jsonData.accessToken\r",
+									"\r",
+									"pm.environment.set(\"AccessToken\", AccessToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"Niyrasamy@gmail.com\",\r\n    \"password\": \"test123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/signin",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Books",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Books",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var Bookid = jsonData.id\r",
+									"\r",
+									"pm.environment.set(\"BookID\", Bookid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Power of Now\",\r\n  \"description\": \"Et sanctus est elitr ea lorem lorem dolor dolores consetetur ut sanctus dolore dolores. Placerat eos et aliquyam esse amet. Tation eum amet voluptua stet esse invidunt dolore ut nonumy labore. Sed est labore eum gubergren. Elitr consetetur facilisis eros feugiat tempor no labore possim iriure magna ipsum. Takimata labore amet kasd accusam consequat dignissim dolor elitr lorem amet erat facilisis. Ut magna ea lorem erat nonumy justo lorem exerci labore vero eirmod blandit eos aliquyam sit dolore. Vero \",\r\n  \"pageCount\": 260,\r\n  \"excerpt\": \"Et augue vero ullamcorper lorem sanctus no in magna ea feugait consetetur sanctus dolore sanctus et aliquip diam. Erat clita invidunt tempor feugait invidunt lorem et ipsum dolor eos amet autem accusam sadipscing aliquyam diam. Lorem lorem et esse lorem sit est hendrerit kasd ut at invidunt ut odio et velit erat. Sadipscing sit ea dolor ipsum accumsan ipsum voluptua augue amet rebum ea sadipscing erat. Et ea nonumy. Dolore gubergren stet sadipscing diam lorem est euismod sea vero ipsum amet. Labore diam duo duo. Vero dolore elitr vel et suscipit erat zzril. Labore lorem consetetur sanctus no feugiat. Tempor at nibh nulla justo dolore eirmod ad labore qui dolores kasd no commodo et et voluptua commodo et. Vero justo invidunt eu autem lorem dolore ea at diam diam et dolore consequat ut sanctus cons\",\r\n  \"publishDate\": \"2022-02-10T04:28:14.674Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Books",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book By id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Books/{{BookID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Books",
+								"{{BookID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Book",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/Books/{{BookID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"Books",
+								"{{BookID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/{{GuardedRoute}}/users/{{userID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"{{GuardedRoute}}",
+								"users",
+								"{{userID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
